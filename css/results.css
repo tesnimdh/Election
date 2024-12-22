@@ -1,0 +1,22 @@
+body {
+  background-color: #f8f9fa;
+  color: #212529;
+}
+.candidate-bar {
+  height: 30px;
+  margin-bottom: 10px;
+}
+.candidate-name {
+  font-weight: bold;
+}
+.badge {
+  color: #154b75;
+  font-size: 15px;
+}
+.progress-bar {
+  background-color: #154b75;
+}
+
+.result {
+  margin-bottom: 10px;
+}

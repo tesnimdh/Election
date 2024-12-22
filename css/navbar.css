@@ -1,0 +1,24 @@
+
+  .navbar{
+background-color: #3ea3cb ;
+height: 60px;
+  }
+  .nav-link{font-size: 18px;
+    padding: 5px 10px;
+    font-weight: bold;
+    color: white;
+  margin-top: 15px;
+  margin-bottom: 15px;
+text-decoration: none;}
+.navbar-nav .nav-item {
+  margin-right: 15px; 
+}
+.nav-link:hover{
+    color: white;
+ }
+ .logout{
+  color: #0d4067 ;
+ }
+ .imgNav{
+  margin-top: 7px;
+ }

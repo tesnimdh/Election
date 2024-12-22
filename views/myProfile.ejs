@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/myProfile.css" />
+  </head>
+
+  <body>
+    <%- include('fixed/navbar') %>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <div id="profileContainer" class="profile-card text-center">
+            <div id="profileView" class="visible">
+              <h3><%= user.username %></h3>
+              <p>Age: <%= user.age %></p>
+              <p>Email: <%= user.email %></p>
+              <p>CIN: <%= user.cin %></p>
+
+              <button class="btn btn-edit mt-3" onclick="toggleEdit(true)">
+                Edit Profile
+              </button>
+            </div>
+
+            <script>
+              function submitEditProfile(event) {
+                event.preventDefault();
+
+                const formData = new FormData(
+                  document.getElementById("editProfileForm")
+                );
+                const data = Object.fromEntries(formData.entries());
+
+                fetch("/api/auth/edit", {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  },
+                  body: JSON.stringify(data),
+                })
+                  .then((response) => response.json())
+                  .then((result) => {
+                    if (result.success) {
+                      alert("Profile updated successfully!");
+                      window.location.href = "/api/auth/profile";
+                    } else {
+                      alert("Profile update failed.");
+                    }
+                  })
+                  .catch((error) => console.error("Error:", error));
+              }
+            </script>
+
+            <div id="editView" class="hidden">
+              <form id="editProfileForm" onsubmit="submitEditProfile(event)">
+                <h4 class="mb-3">Edit Profile</h4>
+                <div class="mb-3">
+                  <label class="form-label">Full Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    value="<%= user.username %>"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Age</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="<%= user.age %>"
+                    name="age"
+                    id="age"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    value="<%= user.email %>"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">CIN</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="cin"
+                    value="<%= user.cin %>"
+                    disabled
+                  />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    value=""
+                    placeholder="New Password"
+                  />
+                </div>
+                <button type="submit" class="btn w-100 mt-3 btn-edit">
+                  Save Changes
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary w-100 mt-2"
+                  onclick="toggleEdit(false)"
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleEdit(showEdit) {
+        const profileView = document.getElementById("profileView");
+        const editView = document.getElementById("editView");
+
+        if (showEdit) {
+          profileView.classList.add("hidden");
+          editView.classList.remove("hidden");
+        } else {
+          profileView.classList.remove("hidden");
+          editView.classList.add("hidden");
+        }
+      }
+    </script>
+  </body>
+</html>

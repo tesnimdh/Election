@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Election Candidates</title>
+    <link rel="stylesheet" href="/candidates.css" />
+  </head>
+  <body>
+    <%- include('fixed/navbar') %>
+
+    <div class="container mt-5">
+      <h3 class="mb-4 text-left">Candidates</h3>
+
+      <!-- Section de recherche -->
+      <div class="row mb-4">
+        <!-- Recherche par parti -->
+        <div class="col-md-6">
+          <form method="GET" action="">
+            <div class="input-group">
+              <select
+                class="form-control"
+                id="partySelect"
+                onchange="location.href='/api/candidates/party/' + this.value;"
+              >
+                <option value="">Select a Party</option>
+                <% parties.forEach(function (party) { %>
+                <option value="<%= party %>"><%= party %></option>
+                <% }); %>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <!-- Recherche par nom -->
+        <div class="col-md-6">
+          <form method="GET" action="">
+            <div class="input-group">
+              <input
+                type="text"
+                id="candidateName"
+                placeholder="Search for a candidate"
+                class="form-control"
+              />
+              <button
+                type="button"
+                class="btn btn-block"
+                onclick="searchByName()"
+              >
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="row">
+        <% candidates.forEach(candidate => { %>
+        <div class="col-md-4 candidate-card">
+          <div class="card shadow-sm h-100">
+            <img
+              src="<%= candidate.picture %>"
+              class="card-img-top"
+              alt="<%= candidate.name %>"
+            />
+
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= candidate.name %>
+                <form
+                  action="/api/auth/favorites/add/<%= candidate._id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button
+                    type="submit"
+                    id="favoriteStar"
+                    onclick="toggleStar()"
+                    class="star-icon"
+                  >
+                    &#9733;
+                  </button>
+                </form>
+              </h5>
+
+              <p class="card-text">
+                <strong>Party:</strong> <%= candidate.party %><br />
+              </p>
+              <div class="text-end">
+                <a
+                  href="/api/candidates/<%= candidate._id %>"
+                  class="btn program-link"
+                  >View Program</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <script>
+      function toggleStar() {
+        const star = document.getElementById("favoriteStar");
+        if (star.style.color === "gold") {
+          star.style.color = "#a4a2a2";
+        } else {
+          star.style.color = "gold";
+        }
+      }
+    </script>
+    <script>
+      function searchByName() {
+        const name = document.getElementById("candidateName").value;
+        if (name) {
+          location.href = `/api/candidates/name/${name}`;
+        }
+      }
+    </script>
+  </body>
+</html>

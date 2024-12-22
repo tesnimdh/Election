@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Election Candidates</title>
+    <link rel="stylesheet" href="/candidates.css" />
+  </head>
+  <body>
+    <%- include('fixed/navbar') %>
+    <div class="container mt-5">
+      <h1 class="mb-4">Favorites</h1>
+      <div class="row">
+        <% if (favorites && favorites.length > 0) { %> <%
+        favorites.forEach(candidate => { %>
+        <div class="col-md-4">
+          <div class="card shadow-sm h-100">
+            <img
+              src="<%= candidate.picture %>"
+              class="card-img-top"
+              alt="<%= candidate.name %>"
+            />
+
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= candidate.name %>
+                <form
+                  action="/api/auth/favorites/remove/<%= candidate._id %>"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button
+                    type="submit"
+                    id="favoriteStar"
+                    class="star-icon"
+                    style="
+                      background: none;
+                      border: none;
+                      color: inherit;
+                      cursor: pointer;
+                    "
+                  >
+                    &#9733;
+                  </button>
+                </form>
+              </h5>
+
+              <p class="card-text">
+                <strong>Party:</strong> <%= candidate.party %><br />
+              </p>
+              <div class="text-end">
+                <a
+                  href="/api/candidates/<%= candidate._id %>"
+                  class="btn program-link"
+                  >View Program</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %> <% } %>
+      </div>
+    </div>
+  </body>
+</html>

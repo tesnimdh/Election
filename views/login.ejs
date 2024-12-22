@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+
+    <link rel="stylesheet" href="/login.css" />
+  </head>
+  <body>
+    <div
+      class="container-fluid vh-100 d-flex align-items-center justify-content-center text-white"
+    >
+      <div class="row w-100">
+        <div class="col-md-6 d-flex flex-column justify-content-center">
+          <h1 class="display-4">Explore the Presidential Elections</h1>
+          <p class="lead mt-4">
+            Sign in to discover candidate profiles, compare their programs, and
+            cast your vote. Stay updated with live election results and be part
+            of shaping the future.
+          </p>
+        </div>
+
+        <div class="col-md-6 d-flex justify-content-center">
+          <div class="card p-4 shadow-lg">
+            <div id="signInForm" class="visible">
+              <h4 class="mb-4">Sign In</h4>
+              <form action="/api/auth/login" method="POST">
+                <div class="form-group mb-3">
+                  <input
+                    type="text"
+                    name="cin"
+                    id="cin"
+                    placeholder="CIN"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="form-group mb-3">
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Password"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                  style="display: <%= error ? 'block' : 'none' %>;"
+                >
+                  <%= error %>
+                </div>
+
+                <div class="divButton">
+                  <button type="submit" class="btn btn-primary mt-2">
+                    Sign In
+                  </button>
+                </div>
+                <div class="divButton">
+                  <p class="pSignUp">
+                    Don't have an account ?
+                    <a
+                      style="cursor: pointer"
+                      class="sign-up-link"
+                      onclick="toggleForms()"
+                      >Sign up for free!</a
+                    >
+                  </p>
+                </div>
+              </form>
+            </div>
+
+            <div id="signUpForm" class="hidden">
+              <div class="flex">
+                <h4 class="mb-4">Sign Up</h4>
+                <p class="pSignUp">
+                  Already have an account ?<a
+                    style="cursor: pointer"
+                    onclick="toggleForms()"
+                    class="sign-up-link"
+                  >
+                    Sign In</a
+                  >
+                </p>
+              </div>
+
+              <form action="/api/auth/register" method="POST">
+                <div class="flexSignUp">
+                  <input
+                    type="text"
+                    name="username"
+                    placeholder="Full Name"
+                    class="form-control"
+                    required
+                  />
+
+                  <input
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  class="form-control"
+                  required
+                />
+                <div class="flexSignUp">
+                  <input
+                    type="text"
+                    name="cin"
+                    placeholder="CIN"
+                    class="form-control"
+                    required
+                  />
+                </div>
+
+                <div class="flexSignUp">
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    class="form-control"
+                    required
+                  />
+
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    placeholder="Confirm Password"
+                    class="form-control"
+                    minlength="6"
+                    required
+                  />
+                </div>
+                <div
+                  class="alert alert-danger"
+                  role="alert"
+                  style="display: <%= error ? 'block' : 'none' %>;"
+                >
+                  <%= error %>
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-3 w-100">
+                  Sign Up
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleForms() {
+        const signInForm = document.getElementById("signInForm");
+        const signUpForm = document.getElementById("signUpForm");
+
+        if (signInForm.classList.contains("visible")) {
+          signInForm.classList.remove("visible");
+          signInForm.classList.add("hidden");
+
+          signUpForm.classList.remove("hidden");
+          signUpForm.classList.add("visible");
+        } else {
+          signUpForm.classList.remove("visible");
+          signUpForm.classList.add("hidden");
+
+          signInForm.classList.remove("hidden");
+          signInForm.classList.add("visible");
+        }
+      }
+    </script>
+  </body>
+</html>

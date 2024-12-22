@@ -1,0 +1,73 @@
+<head>
+    <link rel="stylesheet" href="/detailCandidate.css">
+  </head>
+  <body>
+
+    <%- include('fixed/navbar') %>
+    <div class="container mt-4 detail-container">
+      <h1><%= candidate.name %>: Biography and Program</h1>
+
+     
+      <div class="mt-4">
+        <h2>Biography</h2>
+        <p>
+          <%= candidate.biography %>
+        </p>
+      </div>
+
+      
+      <div class="mt-4">
+        <h2>Program</h2>
+        <p><%= candidate.program %></p>
+      </div>
+
+  
+      <div class="mt-5">
+        <h2>Leave a Comment</h2>
+        <% if (comments && comments.length > 0) { %>
+          <% comments.forEach(comment => { %>
+            <strong><%= comment.user_id.username %></strong>
+          <div>
+            <%= comment.content %>
+          </div>
+          <% }); %>
+        <% } %>
+        <form action="/api/comments/comment/<%= candidate._id %>" method="POST">
+          <div class="mb-3">
+            
+            <textarea
+              id="content"
+              name="content"
+              class="form-control"
+              rows="4"
+              placeholder="Write your comments here..."
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn buttonComment">Submit Comment</button>
+        </form>
+      </div>
+
+      <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const message = urlParams.get('msg');
+        if (message) {
+          alert(message);
+          window.location.href = '/api/candidates/<%= candidate._id %>'; 
+        }
+      </script>
+     
+      <div class="mt-5 text-center">
+        <form action="/api/votes/<%= candidate._id %>" method="POST">
+          <input type="hidden" name="candidate" value="Jane Smith" />
+          <button type="submit" class="btn btn-lg">Vote for <%= candidate.name %></button>
+        </form>
+      </div>
+    </div>
+    
+
+    <footer class="mt-5 text-center">
+      &copy; 2024 <%= candidate.name %> Campaign. All rights reserved.
+    </footer>
+  </body>
+</html>
